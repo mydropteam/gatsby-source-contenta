@@ -67,7 +67,7 @@ exports.sourceNodes = async ({ boundActionCreators, getNode, hasNodeChanged, sto
       internal: _extends({}, node.relationships, {
         type: makeTypeName(node.internal.type)
       }),
-      image___NODE: result.data.data[i].relationships.image.data.id
+      image___NODE: result.data.data[i].relationships.image.data.id,
 
       // Get content digest of node.
     });const contentDigest = crypto.createHash(`md5`).update(JSON.stringify(gatsbyNode)).digest(`hex`);
@@ -81,7 +81,7 @@ exports.sourceNodes = async ({ boundActionCreators, getNode, hasNodeChanged, sto
   const imageUrl = `${baseUrl}/api/images`;
   const imageResult = await axios.get(imageUrl);
 
-  //console.log('img', imageResult.data.data);
+
   const images = imageResult.data.data;
 
   const blue = await Promise.all(images.map((image, i) => new Promise(resolve => {
@@ -97,7 +97,7 @@ exports.sourceNodes = async ({ boundActionCreators, getNode, hasNodeChanged, sto
 
       // axios.get(imageResult.data.data[i].relationships.imageFile.links.related, { timeout: 200000 }).catch(() => console.log(`fail fetch`, gatsbyImage)).then(pictureResult => {
       axios.get(imageResult.data.data[i].relationships.imageFile.links.related.href, { timeout: 1000 * 50 }).catch(() => console.log(`fail fetch`)).then(pictureResult => {
-      gatsbyImage.url = `${baseUrl}${pictureResult.data.data.attributes.uri.url}`;
+      gatsbyImage.url = `${pictureResult.data.data.attributes.uri.url}`;
 
       // Get content digest of node.
       const contentDigest = crypto.createHash(`md5`).update(JSON.stringify(gatsbyImage)).digest(`hex`);
